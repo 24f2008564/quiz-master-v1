@@ -1,45 +1,52 @@
-from flask_sqlalchemy import SQLAlchemy
-from app import app
-db = SQLAlchemy()
-db.init_app(app)
+#from flask_sqlalchemy import SQLAlchemy
+from .database import db
+
+#db = SQLAlchemy(app)
+
+
 
 class User(db.Model):
+    __tablename__ = 'User'
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     username  = db.Column(db.String(), unique = True, nullable = False)
     password =  db.Column(db.String(), nullable = False)
     fullName =  db.Column(db.String(), nullable = False)
     Qualification =  db.Column(db.String(), nullable = False)
-    DOB = db.Column(db.date)
+    DOB = db.Column(db.Date)
     is_admin = db.Column(db.String(), unique = True, nullable = False)
-    scores = db.relationship('Score', backref = 'user', lazy= True)
+    scores = db.relationship('Scores', backref = 'user', lazy= True)
 
 
 class Subject(db.Model):
+    __tablename__ = 'subject'
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     name  = db.Column(db.String(), unique = True, nullable = False)
     description =  db.Column(db.String(), nullable = False)
     chapters = db.relationship('Chapter', backref = 'subject', lazy = True)
     
 class Chapter(db.Model):
+    __tablename__ = 'Chapter'
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     name  = db.Column(db.String(), unique = True, nullable = False)
     description =  db.Column(db.String(), nullable = False)    
-    chap_sub_id = db.Column(db.Integer,db.foreign_key('subject.id'), nullable = False)
-    db.relationship('Quiz', backref = 'chapter', lazy = True)
+    subject_id = db.Column(db.Integer,db.ForeignKey('Subject.id'), nullable = False)
+    quizzes = db.relationship('Quiz', backref = 'chapter', lazy = True)
 
 class Quiz(db.Model):
+    __tablename__ = 'Quiz'
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
-    chapter_id = db.Column(db.Integer,db.foreign_key('Chapter.id'), nullable = False)
-    date_of_quiz = db.Column(db.date, nullable = False)
+    chapter_id = db.Column(db.Integer,db.ForeignKey('Chapter.id'), nullable = False)
+    date_of_quiz = db.Column(db.Date, nullable = False)
     time_duration = db.Column(db.String(), nullable = False)
     remarks =  db.Column(db.String(), nullable = False)
-    db.relationship('Questions', backref = 'quiz', lazy = True)
-    db.relationship('Score', backref= 'quiz', lazy = True)
+    questions = db.relationship('Question', backref = 'quiz', lazy = True)
+    scores = db.relationship('Score', backref= 'quiz', lazy = True)
 
 
-class Questions(db.Model):
+class Question(db.Model):
+    __tablename__ = 'Question'
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
-    quiz_id = db.Column(db.Integer, db.Foreign_key('quiz.id'), nullable = False)
+    quiz_id = db.Column(db.Integer, db.ForeignKey('Quiz.id'), nullable = False)
     question_statement = db.Column(db.String(), unique = True, nullable = False)
     option_1 =  db.Column(db.String(), nullable = False)
     option_2 =  db.Column(db.String(), nullable = False)
@@ -49,10 +56,11 @@ class Questions(db.Model):
 
 
 class Scores(db.Model):
+    __tablename__ = 'Scores'
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
-    quiz_id  =  db.Column(db.Integer, db.Foreign_key('Quiz.id'), nullable = False)
-    user_id  = db.Column(db.Integer, db.Foreign_key('User.id'), nullable = False)
-    time_stamp_of_attempt =  db.Column(db.String(), nullable = False)
+    quiz_id  =  db.Column(db.Integer, db.ForeignKey('Quiz.id'), nullable = False)
+    user_id  = db.Column(db.Integer, db.ForeignKey('User.id'), nullable = False)
+    time_stamp_of_attempt =  db.Column(db.DateTime, nullable = False)
     total_scored =  db.Column(db.String(), nullable = False)
     
 
