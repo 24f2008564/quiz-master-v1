@@ -4,8 +4,17 @@ from .models import *
 from datetime import datetime
 
 
-@app.route("/")
+@app.route("/", methods = ['GET','POST'])
 def login():
+    if request.method == 'POST':
+        uname = request.form['username']
+        pwd = request.form['password']
+        ext_user = User.query.filter_by(username = uname, password = pwd).first()
+        if ext_user and ext_user.is_admin:
+            return render_template("admin_dashbord.html")
+        else:
+            return render_template("user_dashboard.html")
+        
     return render_template("login.html")
 
 @app.route("/register", methods = ['GET','POST'])

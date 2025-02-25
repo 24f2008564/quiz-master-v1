@@ -13,16 +13,16 @@ class User(db.Model):
     fullname =  db.Column(db.String(), nullable = False)
     qualification =  db.Column(db.String(), nullable = False)
     DOB = db.Column(db.DateTime)
-    is_admin = db.Column(db.String(), unique = True, nullable = False, default = False)
-    scores = db.relationship('Scores', backref = 'user', lazy= True)
-    subjects = db.relationship('Subject', backref = 'user', lazy = True)
+    is_admin = db.Column(db.String(), default = False)
+    scores = db.relationship('Scores',  cascade = "all,delete" , backref = 'user', lazy= True)
+    subjects = db.relationship('Subject', cascade = "all,delete" ,backref = 'user',   lazy = True)
 
 class Subject(db.Model):
     __tablename__ = 'subject'
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     name  = db.Column(db.String(), unique = True, nullable = False)
     description =  db.Column(db.String(), nullable = False)
-    chapters = db.relationship('Chapter', backref = 'subject', lazy = True)
+    chapters = db.relationship('Chapter',   cascade = "all,delete" , backref = 'subject', lazy = True)
     user_subject = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
 
 class Chapter(db.Model):
@@ -31,7 +31,7 @@ class Chapter(db.Model):
     name  = db.Column(db.String(), unique = True, nullable = False)
     description =  db.Column(db.String(), nullable = False)    
     subject_id = db.Column(db.Integer,db.ForeignKey('subject.id'), nullable = False)
-    quizzes = db.relationship('Quiz', backref = 'chapter', lazy = True)
+    quizzes = db.relationship('Quiz',  cascade = "all,delete",  backref = 'chapter' , lazy = True)
 
 class Quiz(db.Model):
     __tablename__ = 'quiz'
@@ -40,8 +40,8 @@ class Quiz(db.Model):
     date_of_quiz = db.Column(db.Date, nullable = False)
     time_duration = db.Column(db.String(), nullable = False)
     remarks =  db.Column(db.String(), nullable = False)
-    questions = db.relationship('Question', backref = 'quiz', lazy = True)
-    scores = db.relationship('Scores', backref= 'quiz', lazy = True)
+    questions = db.relationship('Question',cascade = "all,delete", backref = 'quiz', lazy = True)
+    scores = db.relationship('Scores',   cascade = "all,delete", backref= 'quiz',   lazy = True)
 
 
 class Question(db.Model):
