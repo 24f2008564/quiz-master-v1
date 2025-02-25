@@ -6,16 +6,16 @@ from .database import db
 
 
 class User(db.Model):
-    __tablename__ = 'User'
+    __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     username  = db.Column(db.String(), unique = True, nullable = False)
     password =  db.Column(db.String(), nullable = False)
-    fullName =  db.Column(db.String(), nullable = False)
-    Qualification =  db.Column(db.String(), nullable = False)
-    DOB = db.Column(db.Date)
-    is_admin = db.Column(db.String(), unique = True, nullable = False)
+    fullname =  db.Column(db.String(), nullable = False)
+    qualification =  db.Column(db.String(), nullable = False)
+    DOB = db.Column(db.DateTime)
+    is_admin = db.Column(db.String(), unique = True, nullable = False, default = False)
     scores = db.relationship('Scores', backref = 'user', lazy= True)
-
+    subjects = db.relationship('Subject', backref = 'user', lazy = True)
 
 class Subject(db.Model):
     __tablename__ = 'subject'
@@ -23,30 +23,31 @@ class Subject(db.Model):
     name  = db.Column(db.String(), unique = True, nullable = False)
     description =  db.Column(db.String(), nullable = False)
     chapters = db.relationship('Chapter', backref = 'subject', lazy = True)
-    
+    user_subject = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
+
 class Chapter(db.Model):
-    __tablename__ = 'Chapter'
+    __tablename__ = 'chapter'
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     name  = db.Column(db.String(), unique = True, nullable = False)
     description =  db.Column(db.String(), nullable = False)    
-    subject_id = db.Column(db.Integer,db.ForeignKey('Subject.id'), nullable = False)
+    subject_id = db.Column(db.Integer,db.ForeignKey('subject.id'), nullable = False)
     quizzes = db.relationship('Quiz', backref = 'chapter', lazy = True)
 
 class Quiz(db.Model):
-    __tablename__ = 'Quiz'
+    __tablename__ = 'quiz'
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
-    chapter_id = db.Column(db.Integer,db.ForeignKey('Chapter.id'), nullable = False)
+    chapter_id = db.Column(db.Integer,db.ForeignKey('chapter.id'), nullable = False)
     date_of_quiz = db.Column(db.Date, nullable = False)
     time_duration = db.Column(db.String(), nullable = False)
     remarks =  db.Column(db.String(), nullable = False)
     questions = db.relationship('Question', backref = 'quiz', lazy = True)
-    scores = db.relationship('Score', backref= 'quiz', lazy = True)
+    scores = db.relationship('Scores', backref= 'quiz', lazy = True)
 
 
 class Question(db.Model):
-    __tablename__ = 'Question'
+    __tablename__ = 'question'
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
-    quiz_id = db.Column(db.Integer, db.ForeignKey('Quiz.id'), nullable = False)
+    quiz_id = db.Column(db.Integer, db.ForeignKey('quiz.id'), nullable = False)
     question_statement = db.Column(db.String(), unique = True, nullable = False)
     option_1 =  db.Column(db.String(), nullable = False)
     option_2 =  db.Column(db.String(), nullable = False)
@@ -56,13 +57,14 @@ class Question(db.Model):
 
 
 class Scores(db.Model):
-    __tablename__ = 'Scores'
+    __tablename__ = 'scores'
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
-    quiz_id  =  db.Column(db.Integer, db.ForeignKey('Quiz.id'), nullable = False)
-    user_id  = db.Column(db.Integer, db.ForeignKey('User.id'), nullable = False)
+    quiz_id  =  db.Column(db.Integer, db.ForeignKey('quiz.id'), nullable = False)
+    user_id  = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
     time_stamp_of_attempt =  db.Column(db.DateTime, nullable = False)
     total_scored =  db.Column(db.String(), nullable = False)
     
+
 
 
 '''User - Can attempt any quiz of its choice

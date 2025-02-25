@@ -17,15 +17,19 @@ from application.database import db
 def create_app():
     app = Flask(__name__)
     app.debug =True
+    app.config['SECRET_KEY'] = "8209779608"
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///quize_master.sqlite3"
     db.init_app(app)
     app.app_context().push()
+   
     return app
 
 app = create_app()
 
 from application.controllers import *
 
+
+db.create_all()
 
 #@app.route("/")
 #def home():
@@ -36,5 +40,5 @@ from application.controllers import *
 
 
 if __name__ == '__main__':
-   
+    
     app.run(debug=True)
