@@ -28,7 +28,6 @@ app = create_app()
 
 from application.controllers import *
 
-
 db.create_all()
 
 #@app.route("/")

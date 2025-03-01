@@ -15,7 +15,7 @@ class User(db.Model):
     DOB = db.Column(db.DateTime)
     is_admin = db.Column(db.String(), default = False)
     scores = db.relationship('Scores',  cascade = "all,delete" , backref = 'user', lazy= True)
-    subjects = db.relationship('Subject', cascade = "all,delete" ,backref = 'user',   lazy = True)
+    #subjects = db.relationship('Subject', cascade = "all,delete" ,backref = 'user',   lazy = True)
 
 class Subject(db.Model):
     __tablename__ = 'subject'
@@ -23,7 +23,7 @@ class Subject(db.Model):
     name  = db.Column(db.String(), unique = True, nullable = False)
     description =  db.Column(db.String(), nullable = False)
     chapters = db.relationship('Chapter',   cascade = "all,delete" , backref = 'subject', lazy = True)
-    user_subject = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
+    #user_subject = ___db.Column(db.Integer, db.ForeignKey('user.id'))
 
 class Chapter(db.Model):
     __tablename__ = 'chapter'
@@ -39,7 +39,7 @@ class Quiz(db.Model):
     chapter_id = db.Column(db.Integer,db.ForeignKey('chapter.id'), nullable = False)
     date_of_quiz = db.Column(db.Date, nullable = False)
     time_duration = db.Column(db.String(), nullable = False)
-    remarks =  db.Column(db.String(), nullable = False)
+    remarks =  db.Column(db.String())
     questions = db.relationship('Question',cascade = "all,delete", backref = 'quiz', lazy = True)
     scores = db.relationship('Scores',   cascade = "all,delete", backref= 'quiz',   lazy = True)
 
