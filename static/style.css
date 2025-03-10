@@ -26,10 +26,16 @@
 .register_form{
     border: 2px solid black;
     padding: 20px;
-    height: 550px;
+    height: 455px;
     width: 400px;
     margin: auto;
     padding-bottom: 0px;
     margin-top: -85px;
     font-size: 13px;
+    border-radius: 8px;
+}
+
+.user{
+    margin: 10%;
+    border: 2px solid black;
 }

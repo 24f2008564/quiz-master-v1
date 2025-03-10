@@ -11,9 +11,8 @@ class User(db.Model):
     username  = db.Column(db.String(), unique = True, nullable = False)
     password =  db.Column(db.String(), nullable = False)
     fullname =  db.Column(db.String(), nullable = False)
-    qualification =  db.Column(db.String(), nullable = False)
-    DOB = db.Column(db.DateTime)
-    is_admin = db.Column(db.String(), default = False)
+    DOB = db.Column(db.Date())
+    is_admin = db.Column(db.Boolean(), default = False , nullable = False)
     scores = db.relationship('Scores',  cascade = "all,delete" , backref = 'user', lazy= True)
     #subjects = db.relationship('Subject', cascade = "all,delete" ,backref = 'user',   lazy = True)
 
@@ -36,6 +35,7 @@ class Chapter(db.Model):
 class Quiz(db.Model):
     __tablename__ = 'quiz'
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    name = db.Column(db.String(), nullable = False)
     chapter_id = db.Column(db.Integer,db.ForeignKey('chapter.id'), nullable = False)
     date_of_quiz = db.Column(db.Date, nullable = False)
     time_duration = db.Column(db.String(), nullable = False)
@@ -47,13 +47,14 @@ class Quiz(db.Model):
 class Question(db.Model):
     __tablename__ = 'question'
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    question_title = db.Column(db.String(), nullable = False)
     quiz_id = db.Column(db.Integer, db.ForeignKey('quiz.id'), nullable = False)
     question_statement = db.Column(db.String(), unique = True, nullable = False)
     option_1 =  db.Column(db.String(), nullable = False)
     option_2 =  db.Column(db.String(), nullable = False)
     option_3 =  db.Column(db.String(), nullable = False)
     option_4 =  db.Column(db.String(), nullable = False)
-    
+    correct_option = db.Column(db.Integer, nullable = False)    
 
 
 class Scores(db.Model):
@@ -61,8 +62,8 @@ class Scores(db.Model):
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     quiz_id  =  db.Column(db.Integer, db.ForeignKey('quiz.id'), nullable = False)
     user_id  = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
-    time_stamp_of_attempt =  db.Column(db.DateTime, nullable = False)
-    total_scored =  db.Column(db.String(), nullable = False)
+    date =  db.Column(db.Date, nullable = False)
+    totalscore =  db.Column(db.String(), nullable = False)
     
 
 

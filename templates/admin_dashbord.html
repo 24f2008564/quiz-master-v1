@@ -17,13 +17,17 @@
           
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
-              <a class="nav-link" href="#">Quiz</a>
+              <a class="nav-link active" aria-current="page" href="{{url_for('admin')}}">Home</a>
+              <a class="nav-link" href="{{url_for('get_quizzes')}}">Quiz</a>
               <a class="nav-link" href="#">Summary</a>
               <a class="nav-link" href="{{url_for('login')}}">logout</a>
-             
-               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>  </div>
+              <a class="nav-link" href="{{url_for('get_subjects')}}">subjects</a>
+              <a class="nav-link" href=""> welcome Admin </a>
+              <form class="d-flex" role="search" action="/search" >
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name = 's'>
+                <button class="btn btn-outline-success" type="submit">Search</button>
+              </form>
+              
            </div>
             </div>
             
@@ -38,6 +42,8 @@
                    <div class="card-body">
                      <h5 class="card-title text-center"> {{subject.name}}  </h5>
                      <h5 class="card-title text-center"> {{subject.description}}  </h5>
+                     <h5 class="card-title text-center"> <a href="{{url_for('deletesubject', subject_id = subject.id)}}">delete /</a> <a href="{{url_for('editsubject', subject_id = subject.id)}}">edit</a> </h5>
+                     
                         <table class="table">
                           <thead>
                             <tr>
@@ -52,9 +58,9 @@
                                  <tbody class="table-group-divider">
                                  <tr>
                                    <th scope="row"></th>
-                                   <td>{{chapter.name}}</td>
+                                   <td> <a href="{{url_for('quizmanagement', chapter_id = chapter.id) }}"> {{chapter.name}} </a> </td>
                                    <td> no of qjues </td>
-                                    <td> <a href=" url_for('addquiz', chapter_id = chapter.id) ">Edit /</a> <a href="">Delete</a> </td>
+                                    <td> <a href="{{url_for('editchapter', chapter_id = chapter.id)}}">Edit /</a> <a href="{{url_for('deletechapter', chapter_id = chapter.id)}}">Delete</a> </td>
                                     </tr>
                                     </tbody>
                                   {%endfor%}
@@ -79,6 +85,7 @@
     
   <a class="btn btn-primary" href="{{url_for('addsubject')}}" role="button" style="text-align: right;">Add subjects</a>
 </div>
+
 </body>
 </html>
 
