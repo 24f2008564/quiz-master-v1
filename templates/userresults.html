@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Search results for {{search_word}}</h1>
+    {% if subjects %}
+          <h2>subjects</h2>
+          {% for subject in subjects %}
+        <table class="table table-striped table-bordered">
+          <thead >
+                <tr>
+                  <th> ID  </th>
+                  <th> subjectname  </th>
+                  <th> description  </th>
+                  <th>  chapters </th>
+                </tr>
+          </thead>
+          <tbody >
+            <tr>
+              <th > {{subject.id}} </th>
+              <td>{{subject.name}} </td>
+              <td>{{subject.description}} </td>
+              <td>
+              <ol>
+              {% for chapter in subject.chapters%}
+              
+              <li>{{chapter.name}}</li>
+              {%endfor%}
+            </ol></td>
+            </tr>
+          </tbody>
+        </table>  
+          
+          {%endfor%}
+        {%endif%}
+        {%if quizzes %}
+           <h2>quizzes</h2>
+           <table class="table">
+            <thead >
+                <tr>
+                  <th> ID  </th>
+                  <th> quizname  </th>
+                  <th> date  </th>
+                  <th>  duration </th>
+                </tr>
+          </thead>
+            <tbody>
+                {% for quiz in quizzes %}
+              <tr>
+                <th scope="row">{{quiz.id}}</th>
+                <td>{{quiz.name}} </td>
+                <td>{{quiz.date_of_quiz}} </td>
+                <td>{{quiz.time_duration}} </td>
+              </tr>
+              {%endfor%}
+            </tbody>
+          </table>    
+        {%endif%}
+</body>
+</html>

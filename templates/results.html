@@ -8,6 +8,7 @@
 
 </head>
 <body>
+    <h1>Search results for {{search_word}}</h1>
         {% if subjects %}
           <h2>subjects</h2>
           {% for subject in subjects %}
@@ -92,7 +93,29 @@
                 </tbody>
               </table>  
             
-        {%endif%}  
+        {%endif%} 
+        {% if questions %}
+        <h2>Questions</h2>
+            
+        <table class="table">
+            <thead >
+                <tr>
+                  <th> ID  </th>
+                  <th> question title </th>
+                  <th> question statement </th>
+                </tr>
+          </thead>
+            <tbody>
+              {% for question in questions %}
+              <tr>
+                <th scope="row">{{question.id}}</th>
+                <td>{{question.question_title}} </td>
+                <td> {{question.question_statement}}</td>
+              </tr>
+              {%endfor%}
+            </tbody>
+          </table>  
+        {%endif%}
         <a href="{{url_for('admin')}}" class="btn-btn-primary">Go back</a>
     </body>
 </html>

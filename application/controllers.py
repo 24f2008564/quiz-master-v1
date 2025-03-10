@@ -86,25 +86,31 @@ def search():
         return render_template("search.html", query= query)
     elif query.lower() == 'subjects' or query.lower()  == 'subject':
         subjects = Subject.query.all()
-        return render_template("results.html", subjects = subjects, quizzes = "", users = "")
+        return render_template("results.html", subjects = subjects, quizzes = "", users = "", questions ="",  query =query)
     elif query.lower() == 'quiz' or query.lower()  == 'quizzes':
         quizzes = Quiz.query.all()
-        return render_template("results.html", subjects ="", quizzes = quizzes, users = "")
+        return render_template("results.html", subjects ="", quizzes = quizzes, users = "", questions ="",  query =query)
     elif query.lower() == 'users' or query.lower() == 'user':
         users=  User.query.all()
-        return render_template("results.html", subjects= "", quizzes = "", users = users)
-
+        return render_template("results.html", subjects= "", quizzes = "", users = users, questions ="",  query =query)
+    elif query.lower() == 'questions':
+        questions  = Question.query.all()
+        return render_template("results.html", subjects = "", quizzes = "", users = "", questions = questions,  query =query)
     
     
     subjects = Subject.query.filter(Subject.name.ilike(f"%{query.lower()}%")).all()
     #chapters = Chapter.query.filter(Chapter.name.ilike(f"{query}")).all()
     quizzes = Quiz.query.filter(Quiz.name.ilike(f"{query.lower()}")).all()
     users = User.query.filter(User.fullname.ilike(f"{query.lower()}")).all()
-    return render_template("results.html", subjects = subjects, quizzes = quizzes, users  = users)
+
+    return render_template("results.html", subjects = subjects, quizzes = quizzes, users  = users, questions = "", query = query)
 
 @app.route("/user/search")
 def usersearch():
-    
+    search_word = request.args.get('us', '')
+    subjects = Subject.query.all()
+    quizzes = Quiz.query.all()
+    return render_template("userresults.html", subjects = subjects, quizzes = quizzes, search_word = search_word)
     
 #ADD SUBJECT      
 @app.route('/Addsubject', methods = ['GET','POST'])
