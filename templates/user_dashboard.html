@@ -21,13 +21,13 @@
                 <a class="nav-link active" aria-current="page" href="{{url_for('scores', user_id = ext_user.id)}}">scores</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="">summary</a>
+                <a class="nav-link" href="{{url_for('summaryuser', user_id = ext_user.id)}}">summary</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/">Logout</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link"> {{ext_user.fullname}} </a>
+                <a class="nav-link"> {{ext_user.fullname}}'s dashoboard </a>
               </li>
             </ul>
             <form class="d-flex" role="search" action = "/user/search">

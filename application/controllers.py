@@ -3,6 +3,10 @@ from flask import current_app as app
 from .models import *
 from datetime import datetime
 
+import matplotlib.pyplot as plt
+import matplotlib
+
+matplotlib.use('Agg')
 
 admin = {
     "username": "24f2008564@ds.study.iitm.ac.in",
@@ -110,6 +114,10 @@ def usersearch():
     search_word = request.args.get('us', '')
     subjects = Subject.query.all()
     quizzes = Quiz.query.all()
+    if search_word == 'subjects':
+        quizzes = None
+    elif search_word == 'quizzes':
+        subjects = None    
     return render_template("userresults.html", subjects = subjects, quizzes = quizzes, search_word = search_word)
     
 #ADD SUBJECT      
@@ -233,7 +241,7 @@ def editquiz(quiz_id):
         quiz.name = request.form.get('name')  
         quiz.time_duration = request.form.get('time_duration')
         date_obj = request.form.get('date')
-        quiz.date = datetime.strptime(date_obj, '%Y-%m-%d').date()
+        quiz.date_of_quiz = datetime.strptime(date_obj, '%Y-%m-%d').date()
         quiz.remarks = request.form.get('remarks') or None
         db.session.commit()
         return redirect(url_for('quizmanagement', chapter_id = chapter.id))        
@@ -361,6 +369,10 @@ def startquiz(quiz_id, user_id):
     #for score in scores:
     #        if user_id == score.user_id and quiz_id == score.quiz_id:
     #           return redirect(url_for('user_dashboard', user_id = user_id, msg = "USER HAS ALREADY ATTEMPTED THE QUIZ") )
+    current_time = datetime.now()
+    if (current_time.date()) >= (quiz.date_of_quiz):
+        return redirect(url_for('user_dashboard', user_id = user_id, msg = "Date to attempt quiz has already passed") )
+    
     return render_template("quiz.html", quiz = quiz, chapter=  chapter, user_id = user_id)            
 
 
@@ -373,7 +385,69 @@ def scores(user_id):
     return render_template("scores.html", user = user, scores = scores)
 
 
+@app.route("/summary/admin/", methods = ['GET', 'POST'])
+def summaryadmin():
+    subjects = Subject.query.all()
+    subjectsdict = {}
+    scores = Scores.query.all()
+    #for subject in subjects:
+    #    if subject.name in subjectsdict.keys():
+    #        continue
+    #    subjectsdict[subject.name] = 0
+    #scores  =  Scores.query.all()
+    for score in scores:
+        quiz_id = score.quiz_id
+        chapter_id  = (Quiz.query.filter_by(id =  quiz_id).first()).chapter_id
+        subject_id = (Chapter.query.filter_by(id = chapter_id).first()).subject_id
+        subjectname = (Subject.query.filter_by(id = subject_id).first()).name
+        if subjectname not in subjectsdict.keys():
+            subjectsdict[subjectname] = 0
+        elif subjectsdict[subjectname] < int(score.totalscore):
+            subjectsdict[subjectname] = int(score.totalscore)
+    
+    labels = list(subjectsdict.keys())
+    topscrores = list(subjectsdict.values())
+    plt.bar(labels, topscrores, color = "blue")
+    plt.title("top scores by subject")
+    plt.xlabel("subject")
+    plt.ylabel("topscores")
+    plt.savefig("static/chart.png")
+    return render_template("summary_admin.html" )
 
+
+@app.route("/summary/user/<int:user_id>", methods = ['GET', 'POST'])
+def summaryuser(user_id):
+    subjects = Subject.query.all()
+    subjectsdict = {}
+    scores = Scores.query.filter_by(user_id = user_id).all()
+    quizid = []
+    #for subject in subjects:
+    #    if subject.name in subjectsdict.keys():
+    #        continue
+    #    subjectsdict[subject.name] = 0
+    #scores  =  Scores.query.all()
+    for score in scores:
+        quiz_id = score.quiz_id
+        if quiz_id not in quizid:
+            quizid.append(quiz_id)
+            chapter_id  = (Quiz.query.filter_by(id =  quiz_id).first()).chapter_id
+            subject_id = (Chapter.query.filter_by(id = chapter_id).first()).subject_id
+            subjectname = (Subject.query.filter_by(id = subject_id).first()).name
+            if subjectname not in subjectsdict:
+                subjectsdict[subjectname] = 0
+            
+            subjectsdict[subjectname] += 1
+        else:
+            continue    
+    labels = list(subjectsdict.keys())
+    no_of_quizzes_attempted = list(subjectsdict.values())
+    plt.bar(labels, no_of_quizzes_attempted, color = "blue")
+    plt.title("top scores by subject")
+    plt.xlabel("subjects")
+    plt.ylabel("subject_wise_quiz_attempted")
+    plt.savefig("static/chart_user.png")
+    return render_template("summary_user.html")
+        
 
 
 

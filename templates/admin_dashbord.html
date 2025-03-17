@@ -19,7 +19,7 @@
             <div class="navbar-nav">
               <a class="nav-link active" aria-current="page" href="{{url_for('admin')}}">Home</a>
               <a class="nav-link" href="{{url_for('get_quizzes')}}">Quiz</a>
-              <a class="nav-link" href="#">Summary</a>
+              <a class="nav-link" href="{{url_for('summaryadmin')}}">Summary</a>
               <a class="nav-link" href="{{url_for('login')}}">logout</a>
               <a class="nav-link" href="{{url_for('get_subjects')}}">subjects</a>
               <a class="nav-link" href=""> welcome Admin </a>
@@ -34,58 +34,89 @@
         </div>
       </nav>
       <br>
-      {% if subjects %}
-          {% for subject in subjects %}
-             <div class="row" style="margin: auto;">
-               <div class="col-sm-6 mb-3 mb-sm-0">
-                 <div class="card">
-                   <div class="card-body">
-                     <h5 class="card-title text-center"> {{subject.name}}  </h5>
-                     <h5 class="card-title text-center"> {{subject.description}}  </h5>
-                     <h5 class="card-title text-center"> <a href="{{url_for('deletesubject', subject_id = subject.id)}}">delete /</a> <a href="{{url_for('editsubject', subject_id = subject.id)}}">edit</a> </h5>
-                     
-                        <table class="table">
-                          <thead>
-                            <tr>
-                              <th scope="col"></th>
-                              <th scope="col">Chapter</th>
-                              <th scope="col">No. of Questions</th>
-                              <th scope="col">Actions</th>
-                            </tr>
-                          </thead>
-                            {% if subject.chapters %}
-                              {% for chapter in subject.chapters %}
-                                 <tbody class="table-group-divider">
-                                 <tr>
-                                   <th scope="row"></th>
-                                   <td> <a href="{{url_for('quizmanagement', chapter_id = chapter.id) }}"> {{chapter.name}} </a> </td>
-                                   <td> no of qjues </td>
-                                    <td> <a href="{{url_for('editchapter', chapter_id = chapter.id)}}">Edit /</a> <a href="{{url_for('deletechapter', chapter_id = chapter.id)}}">Delete</a> </td>
-                                    </tr>
-                                    </tbody>
-                                  {%endfor%}
-                            {% else%}
-                                  <p style="text-align: center;">
-                                   no chapters
-                                 </p>
-                            {%endif%}
-               
-                  </div>
-                </div>
-                          
-                        </table>
-                        <a class="btn btn-primary" href="{{url_for('addchapter', subjectid = subject.id)}}" role="button" style="text-align: right;">Add chapter</a>
-                      </div>
+
+<div class="container my-4">
+  <div class="row">
+    {% if subjects %}
+      {% for subject in subjects %}
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="text-center">
+                {{ subject.name }}
+              </h5>
+              <h6 class=" text-center text-muted mb-2">
+                {{ subject.description }}
+              </h6>
+              <p class="text-center mb-2">
+                <a href="{{ url_for('deletesubject', subject_id=subject.id) }}">delete</a> /
+                <a href="{{ url_for('editsubject', subject_id=subject.id) }}">edit</a>
+              </p>
+
+              {% if subject.chapters %}
+                <table class="table table-sm">
+                  <thead>
+                    <tr>
+                      <th>Chapter</th>
+                      <th>No. of Questions</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for chapter in subject.chapters %}
+                    
+                    <tr>
+                      
+                      <td>
+                        
+                        <a href="{{ url_for('quizmanagement', chapter_id=chapter.id) }}">
+                          {{ chapter.name }}
+                        
+                        </a>
+                      </td>
+                      <td>no of ques</td>
+                      
+                      <td>
+                        <a href="{{ url_for('editchapter', chapter_id=chapter.id) }}">Edit</a> /
+                        <a href="{{ url_for('deletechapter', chapter_id=chapter.id) }}">Delete</a>
+                      </td>
+                    
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              {% else %}
+                <p class="text-center my-2">
+                  <em>No chapters</em>
+                </p>
+              
+              {% endif %}
+
+              <div class="text-center mt-3">
+                <a href="{{ url_for('addchapter', subjectid=subject.id) }}"
+                   class="btn btn-primary btn-sm">
+                  Add chapter
+                </a>
+              </div>
             </div>
-      {%endfor%}
+          </div>
+        </div>
+      {% endfor %}
     {% else %}
-        <p style="text-align: center;"> no subjects</p>
-        
-    {%endif%}
+      <p class="text-center">No subjects</p>
+    {% endif %}
+  </div> 
+
+  
+  <div class="mt-4 text-center">
     
-  <a class="btn btn-primary" href="{{url_for('addsubject')}}" role="button" style="text-align: right;">Add subjects</a>
-</div>
+      <a class="btn btn-primary" href="{{ url_for('addsubject') }}" role="button">
+      Add subjects
+    </a>
+  </div>
+
+</div> 
+
 
 </body>
 </html>
-

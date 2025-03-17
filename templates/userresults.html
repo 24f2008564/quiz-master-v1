@@ -7,7 +7,9 @@
 </head>
 <body>
     <h1>Search results for {{search_word}}</h1>
-    {% if subjects %}
+    {% if not subjects %}
+    
+    {%else%}
           <h2>subjects</h2>
           {% for subject in subjects %}
         <table class="table table-striped table-bordered">
@@ -37,7 +39,9 @@
           
           {%endfor%}
         {%endif%}
-        {%if quizzes %}
+        {%if not quizzes %}
+        
+        {%else%}
            <h2>quizzes</h2>
            <table class="table">
             <thead >
