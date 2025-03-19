@@ -1,5 +1,6 @@
 from flask import Flask
 from application.database import db
+from application.api_controllers import *
 #from init import app
 
 
@@ -20,6 +21,7 @@ def create_app():
     app.config['SECRET_KEY'] = "8209779608"
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///quize_master.sqlite3"
     db.init_app(app)
+    api.init_app(app)
     app.app_context().push()
    
     return app

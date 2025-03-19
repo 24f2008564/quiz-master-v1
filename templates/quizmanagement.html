@@ -37,11 +37,11 @@
                       {%endfor%}
                     </tbody>
                    
-                    <a  class="btn-btn-success" href = "{{url_for('addquiz',chapter_id = chapter.id)}}" >add quiz</a>
+                    <a  class="btn btn-primary" href = "{{url_for('addquiz',chapter_id = chapter.id)}}" >add quiz</a>
                   </table>
                 </div>
         {% endif %}  
 
-        <a href="{{url_for('admin')}}" class="btn-btn-primary">Back to admin dashboard</a>
+        <a href="{{url_for('admin')}}" class="btn btn-primary" style="text-align: center;">Back to admin dashboard</a>
 </body>
 </html>

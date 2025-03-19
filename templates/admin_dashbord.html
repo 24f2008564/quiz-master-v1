@@ -18,7 +18,7 @@
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
               <a class="nav-link active" aria-current="page" href="{{url_for('admin')}}">Home</a>
-              <a class="nav-link" href="{{url_for('get_quizzes')}}">Quiz</a>
+              <a class="nav-link" href="{{url_for('getquizzes')}}">Quiz</a>
               <a class="nav-link" href="{{url_for('summaryadmin')}}">Summary</a>
               <a class="nav-link" href="{{url_for('login')}}">logout</a>
               <a class="nav-link" href="{{url_for('get_subjects')}}">subjects</a>
@@ -39,7 +39,7 @@
   <div class="row">
     {% if subjects %}
       {% for subject in subjects %}
-        <div class="col-md-6 col-lg-4 mb-4">
+        <div class="col-md-6 col-lg-6 mb-4">
           <div class="card">
             <div class="card-body">
               <h5 class="text-center">
@@ -58,7 +58,7 @@
                   <thead>
                     <tr>
                       <th>Chapter</th>
-                      <th>No. of Questions</th>
+                      <th>No. of Quiz</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
@@ -69,12 +69,12 @@
                       
                       <td>
                         
-                        <a href="{{ url_for('quizmanagement', chapter_id=chapter.id) }}">
+                        <a href="{{ url_for('quizmanagement', chapter_id=chapter.id) }}" style="color: red; font-weight:bold">
                           {{ chapter.name }}
                         
                         </a>
                       </td>
-                      <td>no of ques</td>
+                      <td style="padding-left: 45px;"> {{chapter.quizzes|length}} </td>
                       
                       <td>
                         <a href="{{ url_for('editchapter', chapter_id=chapter.id) }}">Edit</a> /
@@ -103,7 +103,7 @@
         </div>
       {% endfor %}
     {% else %}
-      <p class="text-center">No subjects</p>
+      <h1><p class="text-center">No subjects</p></h1>
     {% endif %}
   </div> 
 

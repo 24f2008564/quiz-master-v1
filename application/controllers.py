@@ -66,6 +66,15 @@ def admin():
     #return render_template("admin_dashbord.html", subjects = subjects, exit_user = exit_user)  
     return render_template("admin_dashbord.html", subjects = subjects)
 
+#@app.route("/api/subjects", methods = ['GET'])
+#def get_subjects():
+#    subjects = Subject.query.all()
+#    s_list = []
+#    for subject in subjects:
+#        s_list.append({"id": subject.id, "name": subject.name, "descrition": subject.description, "chapters":[chapter.name for chapter in subject.chapters]})
+#    return jsonify(s_list)
+#
+#
 @app.route("/api/subjects", methods = ['GET'])
 def get_subjects():
     subjects = Subject.query.all()
@@ -73,6 +82,8 @@ def get_subjects():
     for subject in subjects:
         s_list.append({"id": subject.id, "name": subject.name, "descrition": subject.description, "chapters":[chapter.name for chapter in subject.chapters]})
     return jsonify(s_list)
+
+
 
 # Go to userdashboard
 @app.route("/user_dashboard/<int:user_id>")
@@ -263,12 +274,12 @@ def deletequiz(quiz_id):
     
 # get quizzes
 @app.route("/api/quizzes/")
-def get_quizzes():
+def getquizzes():
     quizzes = Quiz.query.all()
-    q_list = []
+    qlist = []
     for quiz in quizzes:
-        q_list.append({"id":quiz.id, "name":quiz.name , "date": quiz.date_of_quiz, "timeduration": quiz.time_duration})
-    return jsonify(q_list)    
+        qlist.append({"id":quiz.id, "name":quiz.name , "date": quiz.date_of_quiz, "timeduration": quiz.time_duration})
+    return jsonify(qlist)    
 
 
 #Add question 
@@ -448,66 +459,3 @@ def summaryuser(user_id):
     plt.savefig("static/chart_user.png")
     return render_template("summary_user.html")
         
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#to show user quizzes
-
-
-
-
-    #return render_template("addquiz.html", )
-    #if request.method == 'GET':
-    #    quizzes = Quiz.query.filter_by(id = chapter_id).first()
-    #    chapter = Chapter.query.filter_by(id = chapter_id).first()
-    #    if quizzes:
-    #        return render_template("quizmanagement.html", quizzes = quizzes, chapter = chapter)
-        
-    
-    #elif request.method == 'POST':    
-    #    date = request.form['date']
-    #    duration = request.form['duration']
-    #    chapter = Chapter.query.filter_by(id = chapter_id).first()
-    #    new_quiz = Quiz(date_of_quiz  = date, time_duration = duration, chapter_id = chapter.id)
-    #    db.session.add(new_quiz)
-    #    db.session.commit()
-    #    return  render_template("quizmanagement.html", chapter = chapter)
-
