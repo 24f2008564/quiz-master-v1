@@ -45,7 +45,8 @@
         <thead>
           <tr>
             <th scope="col"> ID </th>
-            <th scope="col"> No of questions </th>
+            <th scope="col"> Name of quiz </th>
+            <th scope="col"> No. of questions/totalmarks</th>
             <th scope="col"> duration </th>
             <th scope="col"> Action </th>
           </tr>
@@ -59,6 +60,7 @@
               <tr>
                 <th scope="row"> {{loop.index}} </th>
                 <td> {{quiz.name}}  </td>
+                <td style="padding-left: 70px;"> {{quiz.questions|length}} </td>
                 <td> {{quiz.time_duration}}  </td>               
                 <td><a href="/view_quiz/{{quiz.id}}/{{ext_user.id}}" class="btn btn-primary">View</a> <a href="/start_quiz/{{quiz.id}}/{{ext_user.id}}" class="btn btn-primary">start</a></td>
 

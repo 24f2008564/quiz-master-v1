@@ -14,17 +14,18 @@
     width: 80%;
 }
 .login_form{
-    border: 2px solid black;
+    border: 2px solid  green;
     padding: 20px;
     height: 400px;
     width: 400px;
     margin: auto;
     padding-bottom: 0px;
+    border-radius: 10%;
     
 
 }
 .register_form{
-    border: 2px solid black;
+    border: 2px solid green;
     padding: 20px;
     height: 470px;
     width: 400px;
@@ -32,10 +33,16 @@
     padding-bottom: 0px;
     margin-top: -85px;
     font-size: 13px;
-    border-radius: 8px;
+    border-radius: 10%;
 }
 
 .user{
     margin: 10%;
-    border: 2px solid black;
+    border: 2px solid rgb(0, 255, 42);
+    border-radius: 2%;
+}
+
+.colors{
+    color: red;
+    font-weight: bold;
 }

@@ -412,7 +412,7 @@ def summaryadmin():
         subject_id = (Chapter.query.filter_by(id = chapter_id).first()).subject_id
         subjectname = (Subject.query.filter_by(id = subject_id).first()).name
         if subjectname not in subjectsdict.keys():
-            subjectsdict[subjectname] = 0
+            subjectsdict[subjectname] = int(score.totalscore)
         elif subjectsdict[subjectname] < int(score.totalscore):
             subjectsdict[subjectname] = int(score.totalscore)
     
@@ -453,7 +453,7 @@ def summaryuser(user_id):
     labels = list(subjectsdict.keys())
     no_of_quizzes_attempted = list(subjectsdict.values())
     plt.bar(labels, no_of_quizzes_attempted, color = "blue")
-    plt.title("top scores by subject")
+    plt.title("subjects vs no.of attempts")
     plt.xlabel("subjects")
     plt.ylabel("subject_wise_quiz_attempted")
     plt.savefig("static/chart_user.png")

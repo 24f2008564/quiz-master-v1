@@ -8,6 +8,7 @@
 
 </head>
 <body>
+  
     <div class="user">
       <h2>{{chapter.name}} {{quiz.name}} </h2>
       
@@ -17,17 +18,17 @@
           <input name="{{question.description}}" value = "{{question.question_statement}}" type="text"  disabled>
           <label for="inputPassword3" class="col-sm-2 col-form-label"></label>
       </div>
-          <input type="radio" name="{{question.id}}" value="1" />
-          <label> {{question.option_1}} </label>
+          <input id="option1" type="radio" name="{{question.id}}" value="1" />
+          <label for="option1"> {{question.option_1}} </label>
         </div><div>
-          <input type="radio" name="{{question.id}}" value="2" />
-          <label>{{question.option_2}}</label></div>
+          <input id="option2" type="radio" name="{{question.id}}" value="2" />
+          <label for="option2">{{question.option_2}}</label></div>
         <div>
-          <input type="radio" name="{{question.id}}" value="3" />
-          <label>{{question.option_3}}</label></div>
+          <input id="option3"  type="radio" name="{{question.id}}" value="3" />
+          <label for="option3">{{question.option_3}}</label></div>
         <div>
-          <input type="radio" name="{{question.id}}" value="4" />
-          <label>{{question.option_4}}</label>
+          <input id="option4"  type="radio" name="{{question.id}}" value="4" />
+          <label for="option4">{{question.option_4}}</label>
         </div>
         {%endfor%}
         <div style="text-align: center; padding:15px">
@@ -35,5 +36,6 @@
         </div>
       </form>
         </div>
+   
 </body>
 </html>

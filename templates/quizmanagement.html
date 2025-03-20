@@ -30,7 +30,7 @@
                       {% for quiz in chapter.quizzes %}
                       <tr>
                         <th scope="row"> {{loop.index}} </th>
-                        <td>  <a href="{{url_for('questionmanagement', quiz_id = quiz.id)}}">{{quiz.name}}</a></td>
+                        <td>  <a href="{{url_for('questionmanagement', quiz_id = quiz.id)}}" class="colors" >{{quiz.name}}</a></td>
                         <td>  <a href="{{url_for('editquiz', quiz_id = quiz.id)}}">edit/</a><a href="{{url_for('deletequiz', quiz_id = quiz.id)}}">delete</a></td>
                         <th scope="row"> {{quiz.questions|length}} </th>
                       </tr>
@@ -42,6 +42,6 @@
                 </div>
         {% endif %}  
 
-        <a href="{{url_for('admin')}}" class="btn btn-primary" style="text-align: center;">Back to admin dashboard</a>
+        <a href="{{url_for('admin')}}" class="btn btn-primary">Back to admin dashboard</a>
 </body>
 </html>
